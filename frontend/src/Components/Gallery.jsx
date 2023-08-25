@@ -26,7 +26,7 @@ const Gallery = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/albums/",{headers: {
+      .get("https://tasty-seal-stockings.cyclic.cloud/albums/",{headers: {
         'Content-Type': 'application/json',
         "authorization": authState.token
       }})
@@ -66,7 +66,7 @@ const Gallery = () => {
 
     axios
       .post(
-        `http://localhost:8080/albums/add-comment/${selectedAlbum._id}/${selectedImageIndex}`,
+        `https://tasty-seal-stockings.cyclic.cloud/albums/add-comment/${selectedAlbum._id}/${selectedImageIndex}`,
         data,{headers: {
           'Content-Type': 'application/json',
           "authorization": authState.token

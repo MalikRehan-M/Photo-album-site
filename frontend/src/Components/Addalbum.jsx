@@ -35,7 +35,7 @@ const Addalbum = () => {
     // console.log(editedImage)
     if (editedImage) {
       axios
-        .put(`http://localhost:8080/images/${editedImage._id}`, editedImage, {
+        .put(`https://tasty-seal-stockings.cyclic.cloud/images/${editedImage._id}`, editedImage, {
           headers: {
             'Content-Type': 'application/json',
             authorization: authState.token,
@@ -50,7 +50,7 @@ const Addalbum = () => {
   };
   const handleDeleteImage = (imageId) => {
     axios
-      .delete(`http://localhost:8080/images/${imageId}`, {
+      .delete(`https://tasty-seal-stockings.cyclic.cloud/images/${imageId}`, {
         headers: {
           authorization: authState.token,
         },
@@ -66,7 +66,7 @@ const Addalbum = () => {
     // Fetch images
     console.log(authState.role)
     axios
-      .get('http://localhost:8080/images/',{headers: {
+      .get('https://tasty-seal-stockings.cyclic.cloud/images/',{headers: {
         'Content-Type': 'application/json',
         "authorization": authState.token
       }})
@@ -75,7 +75,7 @@ const Addalbum = () => {
 
     // Fetch albums
     axios
-      .get('http://localhost:8080/albums/',{headers: {
+      .get('https://tasty-seal-stockings.cyclic.cloud/albums/',{headers: {
         'Content-Type': 'application/json',
         "authorization": authState.token
       }})
@@ -87,7 +87,7 @@ const Addalbum = () => {
     
     if (selectedAlbum && selectedImage) {
       axios
-        .post(`http://localhost:8080/albums/add-imagetoalbum/${selectedAlbum}`, selectedImage,{headers: {
+        .post(`https://tasty-seal-stockings.cyclic.cloud/albums/add-imagetoalbum/${selectedAlbum}`, selectedImage,{headers: {
           'Content-Type': 'application/json',
           "authorization": authState.token
         }})

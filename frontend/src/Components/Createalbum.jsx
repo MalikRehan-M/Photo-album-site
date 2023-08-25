@@ -54,7 +54,7 @@ export default function Createalbum() {
   const handlePostAlbum = () => {
     let obj = { albumTitle: albumtitle, images: album };
     axios
-      .post("http://localhost:8080/albums/add", obj)
+      .post("https://tasty-seal-stockings.cyclic.cloud/albums/add", obj)
       .then((response) => {
         console.log(response);
       })
