@@ -1,14 +1,14 @@
 const express = require("express");
 const imageRouter = express.Router();
-const Image = require("../model/albums.model");
+const {Image }= require("../model/albums.model");
 const mongoose = require("mongoose");
 
 // Add a new image
-imageRouter.post("/", async (req, res) => {
+imageRouter.post("/add", async (req, res) => {
   try {
     const { filename, title, caption } = req.body;
 
-    const image = new Image({ filename, title, caption });
+    const image = new Image({ filename, title, caption,comments:[] });
     await image.save();
 
     res.json(image);
@@ -83,4 +83,4 @@ imageRouter.delete("/:imageId", async (req, res) => {
   }
 });
 
-module.exports = imageRouter;
+module.exports = {imageRouter};

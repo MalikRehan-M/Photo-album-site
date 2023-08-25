@@ -74,7 +74,7 @@ const Drawer = styled(MuiDrawer, {
 // TODO remove, this demo shouldn't need to reset the theme.
 
 export default function Sidepanel() {
-  //   const {logoutUser,authState}=React.useContext(AuthContext)
+    const {authState}=React.useContext(AuthContext)
 
   const [open, setOpen] = React.useState(true);
   let navigate = useNavigate();
@@ -134,7 +134,7 @@ export default function Sidepanel() {
                 "Open Sans,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji",
             }}
           >
-            Welcome
+            Welcome {authState.name}
           </Typography>
           <IconButton>
             <Badge badgeContent={4} color="secondary">

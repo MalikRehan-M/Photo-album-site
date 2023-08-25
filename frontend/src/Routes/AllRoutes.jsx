@@ -4,15 +4,43 @@ import Addpost from "../Components/Addpost";
 import Dashboard from "../Components/Dashboard";
 import Addalbum from "../Components/Addalbum";
 import Createalbum from "../Components/Createalbum";
+import PrivateRoute from "./PrivateRoute";
 function AllRoutes() {
-  
   return (
     <Routes>
-      <Route path="/home" element={<Gallery />} />
-      <Route path="/addpost" element={<Addpost />} />
-      <Route path="/createalbum" element={<Createalbum/>} />
-      <Route path="/dashboard" element={<Dashboard/>} />
-      <Route path="/addalbum" element={<Addalbum/>} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route
+        path="/home"
+        element={
+          <PrivateRoute>
+            <Gallery />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/addpost"
+        element={
+          <PrivateRoute>
+            <Addpost />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/createalbum"
+        element={
+          <PrivateRoute>
+            <Createalbum />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/addimagetoalbum"
+        element={
+          <PrivateRoute>
+            <Addalbum />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 }

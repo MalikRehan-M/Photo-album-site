@@ -2,6 +2,7 @@ const JWT=require("jsonwebtoken")
 
 const auth=(req,res,next)=>{
     const token=req.headers.authorization
+    console.log(token)
     if(token){
         const decoded=JWT.verify(token,"malik")
         if(decoded){

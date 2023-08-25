@@ -1,21 +1,20 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const commentSchema = mongoose.Schema({
-  text: String,
-  // You can add more fields like user, timestamp, etc. as needed
-});
+
 const imageSchema = mongoose.Schema({
   filename: String,
   title: String,
   caption: String,
-  comments: [commentSchema], // Array of comments for each image
+  comments:[]
+  // album: { type: mongoose.Schema.Types.ObjectId, ref: 'Album' } // Reference to the Album model
 });
 
-const albumSchema = new mongoose.Schema({
+const albumSchema =  mongoose.Schema({
   albumTitle: String,
-  images: [imageSchema], // Array of images with comments
+  images: [imageSchema] // Reference to the Image model
 });
-const Image = mongoose.model("Image", imageSchema);
 
-module.exports = { Image };
-module.exports = mongoose.model("Album", albumSchema);
+const Image = mongoose.model("images", imageSchema);
+const Album = mongoose.model("albums", albumSchema);
+
+module.exports = { Image, Album };

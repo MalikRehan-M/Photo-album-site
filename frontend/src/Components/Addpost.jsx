@@ -21,7 +21,7 @@ let cloudinaryInfo = {
 };
 
 export default function Addpost() {
-  const {addPostToAllImages}=React.useContext(AuthContext)
+  const {authState } = React.useContext(AuthContext);
   const [formData, setFormData] = React.useState({
     title: "",
     caption: "",
@@ -34,7 +34,6 @@ export default function Addpost() {
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
-    // Your cloudinary upload logic here
     let cloud_name = cloudinaryInfo.cloud_name;
     let upload_preset = cloudinaryInfo.upload_preset;
     let formData1 = new FormData();
@@ -60,32 +59,35 @@ export default function Addpost() {
 
   const handleAddPost = () => {
     // Handle the logic to add a post using formData and image
-    // ActivateToast("Post added successfully", "success");
+
     const post = {
       filename: image,
       title: formData.title,
       caption: formData.caption,
     };
-
-    // Add the post to allImages using the context function
-    addPostToAllImages(post);
+    axios.post("http://localhost:8080/images/add",post,{headers: {
+      'Content-Type': 'application/json',
+      "authorization": authState.token
+    }})
+    .then(res=>console.log(res))
     setRegistrationModalOpen(true);
   };
 
   const handleReset = () => {
     setFormData({
       title: "",
-      captions: "",
+      caption: "",
     });
     setImage(null);
     setRegistrationModalOpen(false);
   };
+  
 
   return (
     <Box
       sx={{
         backgroundColor: "white",
-        width: "65%",
+        width: "35%",
         margin: "auto",
         mt: 5,
         p: "3%",
@@ -142,7 +144,7 @@ export default function Addpost() {
             </label>
           </Box>
         </Box>
-        <Box width="60%">
+        <Box >
           <TextField
             name="title"
             label="Title"
@@ -151,6 +153,7 @@ export default function Addpost() {
             fullWidth
           />
           <TextField
+          sx={{mt:2}}
             name="caption"
             label="Caption"
             value={formData.caption}

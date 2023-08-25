@@ -109,7 +109,7 @@ export const MainListItems = ({ open }) => {
                 </Typography>
               </ListItemButton>
             </Link>
-            <Link to="/addalbum" style={{ all: "unset" }}>
+            <Link to="/addimagetoalbum" style={{ all: "unset" }}>
               <ListItemButton>
                 <ListItemIcon>
                   <DashboardIcon sx={iconColor} />
@@ -122,7 +122,7 @@ export const MainListItems = ({ open }) => {
                       "Open Sans,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji",
                   }}
                 >
-                  Add Album
+                  Add Image to Album
                 </Typography>
               </ListItemButton>
             </Link>
