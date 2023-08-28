@@ -6,7 +6,7 @@ import { AuthContext } from "../Context/AuthContext";
 function PrivateRoute({children}) {
     const{authState}=useContext(AuthContext);
     if(!authState.isAuth){
-        return <Navigate to="/dashboard"/>
+        return <Navigate to="/authentication"/>
     }
     return children;
 }

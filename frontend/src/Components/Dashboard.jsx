@@ -37,7 +37,7 @@ const { loginUser } = useContext(AuthContext);
     event.preventDefault();
     // console.log(authState.token)
     try {
-      const res = await axios.post("https://tasty-seal-stockings.cyclic.cloud/users/login", {
+      const res = await axios.post("http://localhost:8080/users/login", {
         email: loginFormData.email,
         password: loginFormData.password,
       });
@@ -53,7 +53,7 @@ const { loginUser } = useContext(AuthContext);
     event.preventDefault();
 
     try {
-      const res = await axios.post("https://tasty-seal-stockings.cyclic.cloud/users/register", {
+      const res = await axios.post("http://localhost:8080/users/register", {
         email: registerFormData.email,
         name: registerFormData.name,
         password: registerFormData.password,

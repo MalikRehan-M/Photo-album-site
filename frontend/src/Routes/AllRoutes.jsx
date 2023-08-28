@@ -5,10 +5,19 @@ import Dashboard from "../Components/Dashboard";
 import Addalbum from "../Components/Addalbum";
 import Createalbum from "../Components/Createalbum";
 import PrivateRoute from "./PrivateRoute";
+import DashboardData from "../Components/DashboardData";
 function AllRoutes() {
   return (
     <Routes>
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/authentication" element={<Dashboard />} />
+      <Route
+        path="/dashboard"
+        element={
+          <PrivateRoute>
+            <DashboardData />
+          </PrivateRoute>
+        }
+      />
       <Route
         path="/home"
         element={

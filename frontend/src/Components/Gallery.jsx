@@ -13,10 +13,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
 
-
-
 const Gallery = () => {
-  const {authState } = useContext(AuthContext);
+  const { authState } = useContext(AuthContext);
   const [albums, setAlbums] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedAlbum, setSelectedAlbum] = useState(null);
@@ -26,18 +24,20 @@ const Gallery = () => {
 
   useEffect(() => {
     axios
-      .get("https://tasty-seal-stockings.cyclic.cloud/albums/",{headers: {
-        'Content-Type': 'application/json',
-        "authorization": authState.token
-      }})
+      .get("http://localhost:8080/albums/", {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: authState.token,
+        },
+      })
       .then((res) => {
         setAlbums(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((error) => {
         console.error("Error fetching albums:", error);
       });
-  }, [comments,authState.token]);
+  }, [comments, authState.token]);
   const handleCarouselChange = (index) => {
     setSelectedImageIndex(index);
     setComments(selectedAlbum.images.comments || []);
@@ -51,7 +51,7 @@ const Gallery = () => {
   const handleCloseModal = () => {
     setSelectedAlbum(null);
     setOpenModal(false);
-    setNewComment(""); 
+    setNewComment("");
   };
 
   const handleCommentChange = (event) => {
@@ -60,17 +60,21 @@ const Gallery = () => {
 
   const handleCommentSubmit = () => {
     const data = {
-      comment: newComment,
-    };
-    console.log(selectedImageIndex);
+      user:authState.name,
+      comment:newComment
+    }
+    // console.log("comment",data);
 
     axios
       .post(
-        `https://tasty-seal-stockings.cyclic.cloud/albums/add-comment/${selectedAlbum._id}/${selectedImageIndex}`,
-        data,{headers: {
-          'Content-Type': 'application/json',
-          "authorization": authState.token
-        }}
+        `http://localhost:8080/albums/add-comment/${selectedAlbum._id}/${selectedImageIndex}`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: authState.token,
+          },
+        }
       )
       .then((response) => {
         setComments([...comments, newComment]);
@@ -86,9 +90,19 @@ const Gallery = () => {
       <Grid container spacing={2} p={2}>
         {albums.map((album, albumIndex) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={album._id}>
-            <Card style={{cursor: "pointer",backgroundImage: `url(${album.images[0].filename})`,backgroundRepeat:"no-repeat",backgroundSize: "cover",}} onClick={() => handleCardClick(album)}>
+            <Card
+              style={{
+                cursor: "pointer",
+                backgroundImage: `url(${album.images[0].filename})`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+              }}
+              onClick={() => handleCardClick(album)}
+            >
               <CardContent sx={{ m: 12 }}>
-                <Typography variant="h4" color="white" >{album.albumTitle}</Typography>
+                <Typography variant="h4" color="white">
+                  {album.albumTitle}
+                </Typography>
               </CardContent>
             </Card>
           </Grid>
@@ -99,64 +113,77 @@ const Gallery = () => {
       <Modal
         open={openModal}
         onClose={handleCloseModal}
-        sx={{ width: "50%", margin: "auto", height: "80%",overflow:"scroll" ,textAlign:"start"}}
-        
+        sx={{
+          width: "50%",
+          margin: "auto",
+          height: "80%",
+          overflow: "scroll",
+          textAlign: "start",
+        }}
       >
         <div style={{ backgroundColor: "white" }}>
           {selectedAlbum && (
             <Carousel
-            autoPlay
-            infiniteLoop
-            interval={2000}
-            useKeyboardArrows
+              autoPlay
+              infiniteLoop
+              interval={2000}
+              useKeyboardArrows
               showArrows={false}
               renderIndicator={false}
               showThumbs={false}
               onChange={handleCarouselChange}
-              >
+            >
               {selectedAlbum &&
                 selectedAlbum.images.map((image, index) => (
                   <div key={index}>
-                    <h2>{selectedAlbum.albumTitle}</h2>
+                    <h2>Album: {selectedAlbum.albumTitle}</h2>
                     <div
                       style={{ width: "80%", height: "400px", margin: "auto" }}
-                      >
-                      <img style={{width:"100%",height:"100%",objectFit:"contain"}} src={image.filename} alt={image.caption} />
+                    >
+                      <img
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "contain",
+                        }}
+                        src={image.filename}
+                        alt={image.caption}
+                      />
                     </div>
                     {/* Comment Section */}
-                    <div style={{ marginTop: "5%",textAlign:"start",padding:"20px" }}>
+                    <div
+                      style={{
+                        marginTop: "5%",
+                        textAlign: "start",
+                        padding: "20px",
+                      }}
+                    >
                       <h2>Title: {image.title}</h2>
                       <h2>Caption: {image.caption}</h2>
 
                       <h3>Comments:</h3>
                       <ul>
-                        {image.comments.map(
-                          (comment, commentIndex) => (
-                            <li key={commentIndex}>
-                              <h4>
-                              {comment}
-
-                              </h4>
-                              </li>
-                          )
-                        )}
+                        {image.comments.map((comment, commentIndex) => (
+                          <li key={commentIndex}>
+                            <h4>{comment.user||authState.name}: {comment.comment||comment}</h4>
+                          </li>
+                        ))}
                       </ul>
 
                       <TextField
                         label="Add a Comment"
                         variant="outlined"
-                        sx={{width:"400px",height:'60px',padding:"10px"}}
-                       
+                        sx={{ width: "400px", height: "60px", padding: "10px" }}
                         value={newComment}
                         onChange={handleCommentChange}
                       />
                       <Button
-                      sx={{ml:4,mt:1}}
+                        sx={{ ml: 4, mt: 1 }}
                         variant="contained"
                         color="primary"
-                        onClick={()=>{
-                          handleCommentSubmit()
-                          image.comments=[...image.comments,newComment]
+                        onClick={() => {
+                          handleCommentSubmit();
+                          image.comments = [...image.comments, newComment];
                         }}
                       >
                         Add Comment
@@ -171,5 +198,5 @@ const Gallery = () => {
     </>
   );
 };
-
 export default Gallery;
+

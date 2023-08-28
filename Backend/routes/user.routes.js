@@ -33,4 +33,12 @@ userRouter.post("/login",async(req,res)=>{
         res.status(400).send({"msg":error.message})
     }
 })
+userRouter.get("/all", async (req, res) => {
+    try {
+      const users = await UserModel.find({}, "-password"); // Exclude the password field from the response
+      res.status(200).json(users);
+    } catch (error) {
+      res.status(400).json({ "msg": error.message });
+    }
+  });
 module.exports={userRouter}

@@ -65,7 +65,7 @@ export default function Addpost() {
       title: formData.title,
       caption: formData.caption,
     };
-    axios.post("https://tasty-seal-stockings.cyclic.cloud/images/add",post,{headers: {
+    axios.post("http://localhost:8080/images/add",post,{headers: {
       'Content-Type': 'application/json',
       "authorization": authState.token
     }})

@@ -17,7 +17,8 @@ albumRouter.get("/", async (req, res) => {
 albumRouter.post("/add-comment/:albumId/:imageIndex", async (req, res) => {
   try {
     const { albumId, imageIndex } = req.params;
-    const { comment } = req.body;
+    const  comment  = req.body;
+    console.log(comment)
 
     const album = await Album.findById(albumId);
 

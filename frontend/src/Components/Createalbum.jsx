@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { Cancel } from "@mui/icons-material";
 import axios from "axios";
+import { AuthContext } from "../Context/AuthContext";
 
 let cloudinaryInfo = {
   cloud_name: "dpuajbfaw",
@@ -21,6 +22,7 @@ let cloudinaryInfo = {
 };
 
 export default function Createalbum() {
+  const { authState } = React.useContext(AuthContext);
   const [formData, setFormData] = useState({
     title: "",
     caption: "",
@@ -54,7 +56,12 @@ export default function Createalbum() {
   const handlePostAlbum = () => {
     let obj = { albumTitle: albumtitle, images: album };
     axios
-      .post("https://tasty-seal-stockings.cyclic.cloud/albums/add", obj)
+      .post("http://localhost:8080/albums/add", obj, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: authState.token,
+        },
+      })
       .then((response) => {
         console.log(response);
       })
@@ -121,9 +128,8 @@ export default function Createalbum() {
                 src={post.filename}
               />
               <Box>
-
-              <Typography variant="h6">Title: {post.title}</Typography>
-              <Typography variant="h6">Caption: {post.caption}</Typography>
+                <Typography variant="h6">Title: {post.title}</Typography>
+                <Typography variant="h6">Caption: {post.caption}</Typography>
               </Box>
             </Box>
           ))}
@@ -182,7 +188,7 @@ export default function Createalbum() {
               </label>
             </Box>
           </Box>
-          <Box >
+          <Box>
             <TextField
               name="albumtitle"
               label="Album Title"
@@ -193,7 +199,7 @@ export default function Createalbum() {
               fullWidth
             />
             <TextField
-            sx={{mt:2}}
+              sx={{ mt: 2 }}
               name="title"
               label="Title"
               value={formData.title}
@@ -201,7 +207,7 @@ export default function Createalbum() {
               fullWidth
             />
             <TextField
-            sx={{mt:2}}
+              sx={{ mt: 2 }}
               name="caption"
               label="Caption"
               value={formData.caption}
@@ -222,10 +228,10 @@ export default function Createalbum() {
         </Button>
       </Box>
       <Dialog open={registrationModalOpen} onClose={handleReset}>
-        <DialogTitle>Album Added</DialogTitle>
+        <DialogTitle>Image Added</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Your Album has been uploaded successfully!
+            Your Image has been uploaded successfully!
           </DialogContentText>
         </DialogContent>
         <DialogActions>
